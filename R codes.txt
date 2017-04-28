@@ -1,0 +1,38 @@
+#================== Q1 =====================
+
+mydata <- read.csv('\\\\in0-filer08\\FOA\\DataPrem\\20140131_flights.csv',stringsAsFactors = FALSE)
+attach(mydata)
+real_to = factor(real_to)
+DELdata = subset(mydata, mydata$real_to == "DEL")
+length(unique(LHRdata$reg))
+
+#-------------------------------------------
+
+
+#================== Q2 =====================
+
+apdata <- read.csv('\\\\in0-filer08\\FOA\\DataPrem\\IATA ICAO codes mapping.csv')
+list_ap_india = apdata[which(grepl("^V[AEIO]",apdata$ICAO)),]
+
+data_india <- mydata[which(mydata$schd_from %in% list_ap_india$IATA),]
+data_india <- data_india[which(data_india$real_to %in% list_ap_india$IATA),]
+
+mydata2 <- cbind(data_india,route = paste(data_india$schd_from,data_india$real_to,sep = ""))
+
+mydata2$route = factor(mydata2$route)
+tbldata <- mydata2[,c(1,11)]
+mytable2 <- as.data.frame(count(tbldata,route))
+
+mytable2 <- mytable2[order(-mytable2$n),]
+
+#--------------------------------------------
+
+
+#================== Q5 =====================
+
+path = "//in0-filer08/FOA/DataPrem"
+filename = paste("20140131",DELdata[1,1],sep="_")
+fullpath = paste(path,"/",filename,".csv",sep="")
+flight_data <- read.csv(path)
+
+#--------------------------------------------
